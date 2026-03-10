@@ -23,31 +23,23 @@ export default function App() {
     (Number(t.months)||0)*2629800000
   );
 
-  // Load from persistent storage on mount
-  useEffect(() => {
-    (async () => {
-      try {
-        const result = await window.storage.get("todoTasks");
-        if (result?.value) setTasks(JSON.parse(result.value));
-      } catch (e) {
-        // key doesn't exist yet, that's fine
-      }
-      setLoaded(true);
-    })();
-  }, []);
+  // Load from localStorage //sunny
+useEffect(() => {
+  const saved = localStorage.getItem("todoTasks");
+  if (saved) {
+    setTasks(JSON.parse(saved));
+  }
+  setLoaded(true);
+}, []);
 
-  // Save to persistent storage whenever tasks change (after initial load)
-  useEffect(() => {
-    if (!loaded) return;
-    (async () => {
-      try {
-        await window.storage.set("todoTasks", JSON.stringify(tasks));
-      } catch (e) {
-        console.error("Storage save error:", e);
-      }
-    })();
-  }, [tasks, loaded]);
+  // Save tasks to localStorage //sunny
+useEffect(() => {
+  if (!loaded) return;
+  localStorage.setItem("todoTasks", JSON.stringify(tasks));
+}, [tasks, loaded]);
 
+
+  
   // Remove expired tasks automatically
   useEffect(() => {
     const interval = setInterval(() => {
