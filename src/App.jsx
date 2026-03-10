@@ -11,7 +11,7 @@ export default function App() {
     months: "",
     weeks: "",
     days: "",
-    hours: "1",
+    hours: "",
     minutes: ""
   });
 
